@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bitcoin Price Guess App
 
-## Getting Started
+This is a web application built with Next.js and Supabase that allows users to guess whether the market price of Bitcoin (BTC/USD) will be higher or lower after one minute.
 
-First, run the development server:
+## Functionality
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-   **Real-time BTC Price:** The app displays the latest BTC/USD price fetched from the CoinDesk API.
+-   **Score Tracking:** Users have a score that is persisted in a Supabase database.
+-   **Guessing:** Users can guess "up" or "down" for the BTC price movement.
+-   **Guess Resolution:** After a guess is made and 60 seconds have passed, the guess is resolved, and the score is updated accordingly.
+-   **Persistence:** User scores are persisted, allowing users to return and continue playing.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the Repository:**
+    ```bash
+    git clone YOUR_REPOSITORY_URL
+    cd nextjs-bitcoin-guess
+    ```
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Set up Supabase:**
+    -   Create a Supabase project.
+    -   Create a table named `players` with columns
+        - `id` (UUID, primary key)
+        - `score` (integer).
+        - `created_at` timestamp
+        - `updated_at` timestamp
+    -   Obtain your Supabase URL and anonymous key.
+4.  **Configure Environment Variables:**
+    -   Create a `.env.local` file in the root directory.
+    -   Add your Supabase URL and anonymous key:
+        ```
+        NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_URL
+        NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+        NEXT_PUBLIC_BTC_PRICE_API='https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+        ```
+5.  **Run the Application:**
+    ```bash
+    npm run dev
+    ```
+    -   Open your browser and navigate to `http://localhost:3000`.
+6. **Deploy to Vercel**
+    - Create a Vercel Account and link your github repo.
+    - Add the environment variables to the vercel project.
+    - Vercel will build and deploy the application.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Vercel:**
+    -   Connect your GitHub repository to Vercel.
+    -   Vercel will automatically build and deploy your application.
+    -   Add your Supabase environment variables to your Vercel project settings.
+2.  **Supabase:**
+    -   Ensure your Supabase project is running and accessible.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-   Manual testing can be performed by making guesses and observing the score changes.
+-   Unit tests and integration tests can be added using Jest and React Testing Library for more comprehensive testing.
 
-## Deploy on Vercel
+## Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   The BTC price is fetched from the CoinDesk API, which may have rate limits.
+-   Error handling is implemented to catch and display errors.
+-   The player id is saved to localStorage, so the user can return to the page and keep their score.
